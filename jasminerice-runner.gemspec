@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Chris Nelson"]
   s.email       = ["chris@gaslightsoftware.com"]
   s.homepage    = ""
-  s.summary     = %q{A rake task to run jasmine specs using capybara}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{runs jasmine specs using capybara}
+  s.description = %q{Adds a rake task to run jasmine specs using capybara}
 
   s.rubyforge_project = "jasminerice-runner"
 
