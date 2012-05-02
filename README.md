@@ -8,8 +8,8 @@ Usage
 
 Add this to your spec.js:
 
-   #= require jasminerice_reporter
+    #= require jasminerice_reporter
   
 Then, run the rake task
 
-   rake jasminerice:run
+    rake jasminerice:run
