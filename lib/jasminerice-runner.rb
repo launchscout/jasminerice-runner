@@ -1,7 +1,4 @@
 module Jasminerice
-  class JasmineRiceRunnerTask < Rails::Railtie
-    rake_tasks do
-      Dir[File.join(File.dirname(__FILE__),'tasks/*.rake')].each { |f| load f }
-    end
+  class JasmineRiceRunnerEngine < Rails::Engine
   end
 end
