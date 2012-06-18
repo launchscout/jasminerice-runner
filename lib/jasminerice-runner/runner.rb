@@ -1,9 +1,14 @@
 module Jasminerice
   class Runner
+    
     include Capybara::DSL
-  
+    
+    def capybara_driver
+      self.class.capybara_driver || :selenium
+    end
+    
     def run
-      Capybara.default_driver = :selenium
+      Capybara.default_driver = capybara_driver
       visit "/jasmine"
       puts "Running jasmine specs"
       wait_until { page.evaluate_script("window.jasmineRiceReporter.finished")}
