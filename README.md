@@ -6,6 +6,10 @@ Uses capybara to run jasmine specs with jasminerice and rails asset pipeline
 Usage
 -----
 
+Add it to your Gemfile
+
+    gem "jasminerice-runner"
+    
 Add this to your spec.js:
 
     #= require jasminerice_reporter
