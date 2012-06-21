@@ -17,7 +17,9 @@ class JasminericeReporter
           @failedSpecs[spec.suite.description][spec.description].push(failure)
 #@failed = true
 
+# make sure this exists so we don't have timing issue
+# when capybara hits us before the onload function has run
+window.jasmineRiceReporter = new JasminericeReporter()
 
 jQuery ->
-  window.jasmineRiceReporter = new JasminericeReporter()
-  jasmine.getEnv().addReporter jasmineRiceReporter
+  jasmine.getEnv().addReporter window.jasmineRiceReporter
