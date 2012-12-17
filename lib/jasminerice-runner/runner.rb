@@ -1,17 +1,21 @@
 module Jasminerice
   class Runner
-    
+
     include Capybara::DSL
-    
+
     def capybara_driver
       self.class.capybara_driver || :selenium
     end
-    
+
+    def timeout
+      self.class.timeout || 60
+    end
+
     def run
       Capybara.default_driver = capybara_driver
       visit "/jasmine"
       puts "Running jasmine specs"
-      wait_until { page.evaluate_script("window.jasmineRiceReporter.finished")}
+      wait_until (timeout) { page.evaluate_script("window.jasmineRiceReporter.finished")}
       passed = page.evaluate_script("window.jasmineRiceReporter.results.passedCount")
       failed = page.evaluate_script("window.jasmineRiceReporter.results.failedCount")
       total = page.evaluate_script("window.jasmineRiceReporter.results.totalCount")
@@ -30,13 +34,13 @@ module Jasminerice
           puts "\n"
         end
       end
-  
+
       if page.evaluate_script("window.jasmineRiceReporter.results.failedCount") == 0
         puts "Jasmine specs passed, yay!"
       else
         raise "Jasmine specs failed"
       end
     end
-    
+
   end
 end
