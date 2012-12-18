@@ -11,31 +11,44 @@ module Jasminerice
       self.class.timeout || 60
     end
 
+    def get property
+      page.evaluate_script("window.jasmineRiceReporter.#{property}")
+    end
+
     def run
       Capybara.default_driver = capybara_driver
       visit "/jasmine"
-      puts "Running jasmine specs"
-      wait_until (timeout) { page.evaluate_script("window.jasmineRiceReporter.finished")}
-      passed = page.evaluate_script("window.jasmineRiceReporter.results.passedCount")
-      failed = page.evaluate_script("window.jasmineRiceReporter.results.failedCount")
-      total = page.evaluate_script("window.jasmineRiceReporter.results.totalCount")
-      failures = page.evaluate_script("window.jasmineRiceReporter.failedSpecs")
-      puts "Jasmine results - Passed: #{passed} Failed: #{failed} Total: #{total}"
+      puts  "Running jasmine specs"
+      wait_until (timeout) { get "finished" }
+      failures = get "failures"
+      passed   = get "results.passedCount"
+      failed   = get "results.failedCount"
+      total    = get "results.totalCount"
+
+      banner = "Jasmine results - Passed: #{passed} Failed: #{failed} Total: #{total}"
+      puts "." * banner.length
+      puts banner
+      puts "." * banner.length
+
       if failures.size > 0
-        puts 'Jasmine failures:  '
-        for suiteName,suiteFailures in failures
-          puts "  " + suiteName + "\n"
-          for specName,specFailures in suiteFailures
-            puts "    " + specName + "\n"
-            for specFailure in specFailures
-              puts "      " + specFailure + "\n"
-            end
+        puts "\nFailures:\n"
+        indent = ""
+        for ancestors, messages in failures
+          for name in ancestors.split(",")
+            puts "#{indent}#{name}"
+            indent += "  "
           end
+          for message in messages
+            puts "#{indent}#{message}"
+          end
+
+          indent = ""
           puts "\n"
         end
+
       end
 
-      if page.evaluate_script("window.jasmineRiceReporter.results.failedCount") == 0
+      if get("failedCount") == 0
         puts "Jasmine specs passed, yay!"
       else
         raise "Jasmine specs failed"
