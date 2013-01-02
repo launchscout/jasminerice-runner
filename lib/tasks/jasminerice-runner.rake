@@ -4,7 +4,7 @@ namespace :jasminerice do
   task :run, [:jasmine_environment] => :environment do |t, args|
     require "capybara/rails"
     require "jasminerice-runner/runner"
-    args.with_defaults(jasmine_environment: nil)
-    Jasminerice::Runner.new.run(args[:jasmine_environment])
+    runner = Jasminerice::Runner.new(args[:jasmine_environment])
+    runner.run
   end
 end
