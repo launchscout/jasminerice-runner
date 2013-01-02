@@ -10,8 +10,8 @@ module Jasminerice
     def run
       Capybara.default_driver = capybara_driver
       visit "/jasmine"
-      puts "Running jasmine specs"
-      wait_for_results
+      print "Running jasmine specs"
+      wait_for_finished
       passed = page.evaluate_script("window.jasmineRiceReporter.results.passedCount")
       failed = page.evaluate_script("window.jasmineRiceReporter.results.failedCount")
       total = page.evaluate_script("window.jasmineRiceReporter.results.totalCount")
@@ -38,15 +38,21 @@ module Jasminerice
       end
     end
 
-    def wait_for_results
+    def wait_for_finished
+      reporter = page.evaluate_script("window.jasmineRiceReporter")
+      if reporter.nil?
+        puts "jasmineRiceReporter not defined! Check your configuration to make\n" +
+             "sure that jasminerice_reporter is included in spec.js"
+        raise "Reporter not found"
+      end
+
       start = Time.now
       while true
         break if page.evaluate_script("window.jasmineRiceReporter.finished")
-        if Time.now > start + 5.seconds
-          puts "Results not ready yet"
-        end
         sleep 1
+        print "."
       end
+      print "\n"
     end
   end
 end
