@@ -21,5 +21,5 @@ class JasminericeReporter
 # when capybara hits us before the onload function has run
 window.jasmineRiceReporter = new JasminericeReporter()
 
-jQuery ->
+document.addEventListener 'DOMContentLoaded', ->
   jasmine.getEnv().addReporter window.jasmineRiceReporter
