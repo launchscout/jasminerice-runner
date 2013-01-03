@@ -34,4 +34,4 @@ if no environment is specified.
 
 For example, if you wanted to run all specs in admin_spec.js the rake task would be:
 
-    rake jasminerice:run["admin']
+    rake jasminerice:run["admin"]
