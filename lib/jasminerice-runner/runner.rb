@@ -12,7 +12,18 @@ module Jasminerice
 
     def run
       Capybara.default_driver = capybara_driver
-      visit jasmine_url
+      timeout_retries = 3
+      begin
+        visit jasmine_url
+      rescue Capybara::Poltergeist::TimeoutError
+        timeout_retries -= 1
+        if timeout_retries < 0
+          raise
+        else
+          restart_phantomjs
+          retry
+        end
+      end
       print "Running jasmine specs"
 
       wait_for_finished
@@ -35,6 +46,22 @@ module Jasminerice
       end
 
       url
+    end
+
+    def restart_phantomjs
+      puts "-> Restarting phantomjs: iterating through capybara sessions..."
+      session_pool = Capybara.send('session_pool')
+      session_pool.each do |mode,session|
+        msg = "  => #{mode} -- "
+        driver = session.driver
+        if driver.is_a?(Capybara::Poltergeist::Driver)
+          msg += "restarting"
+          driver.restart
+        else
+          msg += "not poltergeist: #{driver.class}"
+        end
+        puts msg
+      end
     end
 
     def get_results
