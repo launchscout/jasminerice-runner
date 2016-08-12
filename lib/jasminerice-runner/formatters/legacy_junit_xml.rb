@@ -2,8 +2,12 @@ module Jasminerice
   module Runner
     module Formatters
       class LegacyJunitXml
-        def initialize
+
+        attr_reader :worker, :doc, :spec_count, :failure_count
+
+        def initialize(worker)
           @doc = Nokogiri::XML '<testsuites><testsuite name="Jasmine Suite"></testsuite></testsuites>', nil, 'UTF-8'
+          @worker = worker
           @spec_count = 0
           @failure_count = 0
         end
@@ -57,7 +61,6 @@ module Jasminerice
           testsuite['tests'] = @spec_count
           testsuite['failures'] = @failure_count
           testsuite['errors'] = 0
-
           FileUtils.mkdir_p(output_dir) unless File.directory?(output_dir)
           File.open(File.join(output_dir, 'junit_results.xml'), 'w') do |file|
             file.puts doc.to_xml(indent: 2)
@@ -65,10 +68,10 @@ module Jasminerice
         end
 
         private
-        attr_reader :doc, :config
-
+        
         def output_dir
-          Jasminerice::Runner.config.junit_xml_path || File.join(Dir.pwd, 'spec', 'reports')
+          config_path = Jasminerice::Runner.config.junit_xml_path
+          @output_dir ||= worker.value_blank?(config_path) ? File.join(Dir.pwd, 'spec', worker.environment, 'reports') : config_path
         end
 
       end

@@ -9,6 +9,8 @@ module Jasminerice
         }
       }.freeze
 
+      attr_reader :environment
+
       def initialize(environment)
         @environment = environment
         @finished = false
@@ -21,7 +23,7 @@ module Jasminerice
         formatter_name = formatter.is_a?(Symbol) ? formatter : formatter.to_sym
         Jasminerice::Runner::Worker::FOMATTERS_MAPPER[formatter_name][type]
       end
-      
+
       def runner_formatters
         Jasminerice::Runner.config.formatters
       end
@@ -66,7 +68,7 @@ module Jasminerice
         end
         if !Jasmine.respond_to?(:configure) && !value_blank?(runner_formatters)
           runner_formatters.each do |formatter|
-            formatter_instance =  formatter_name(formatter, :legacy).new
+            formatter_instance =  formatter_name(formatter, :legacy).new(self)
             formatter_instance.format(results[:all_results])
             formatter_instance.done({})
           end
