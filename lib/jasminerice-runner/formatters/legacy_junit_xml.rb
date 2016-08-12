@@ -19,16 +19,16 @@ module Jasminerice
 
           results.each do |result|
             testcase = Nokogiri::XML::Node.new 'testcase', doc
-            testcase['classname'] = result['suite_name'].strip
-            testcase['name'] = result['description'].strip
+            testcase['classname'] = result['suite_name'].to_s.strip
+            testcase['name'] = result['description'].to_s.strip
 
             if result['status'] == 'failed'
               @failure_count += 1
               result['messages'].each do |failed_exp|
                 failure = Nokogiri::XML::Node.new 'failure', doc
-                failure['message'] = failed_exp['message'].strip
+                failure['message'] = failed_exp['message'].to_s.strip
                 failure['type'] = 'Failure'
-                failure.content = failed_exp['trace']['stack'].strip
+                failure.content = failed_exp['trace']['stack'].to_s.strip
                 failure.parent = testcase
               end
             end
@@ -68,10 +68,10 @@ module Jasminerice
         end
 
         private
-        
+
         def output_dir
           config_path = Jasminerice::Runner.config.junit_xml_path
-          @output_dir ||= worker.value_blank?(config_path) ? File.join(Dir.pwd, 'spec', worker.environment, 'reports') : config_path
+          @output_dir ||= worker.value_blank?(config_path) ? File.join(Dir.pwd, 'spec', worker.environment.to_s, 'reports') : config_path
         end
 
       end
