@@ -19,9 +19,11 @@ module Jasminerice
       end
 
       def formatter_name(formatter, type = :legacy)
+        return formatter if formatter.is_a?(Class)
         type = type.is_a?(Symbol) ? type : type.to_sym
         formatter_name = formatter.is_a?(Symbol) ? formatter : formatter.to_sym
-        Jasminerice::Runner::Worker::FOMATTERS_MAPPER[formatter_name][type]
+        formatter_class = Jasminerice::Runner::Worker::FOMATTERS_MAPPER[formatter_name]
+        formatter_class.nil? ? formatter : formatter_class[type]
       end
 
       def runner_formatters

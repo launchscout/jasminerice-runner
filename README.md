@@ -27,9 +27,9 @@ Installation Instructions
 -------------------------
 
 Add it to your Gemfile
-
+```ruby
     gem "jasminerice-runner"
-
+```
 Usage
 -----
 
