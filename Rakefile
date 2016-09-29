@@ -16,15 +16,7 @@ task default: [:all]
 desc 'Test the plugin under all supported Rails versions.'
 task :all do |_t|
   if ENV['TRAVIS']
-    # require 'json'
-    # puts JSON.pretty_generate(ENV.to_hash)
-    if ENV['BUNDLE_GEMFILE'] =~ /gemfiles/
-      appraisal_name = ENV['BUNDLE_GEMFILE'].scan(/rails\_(.*)\.gemfile/).flatten.first
-      command_prefix = "appraisal rails-#{appraisal_name}"
-      exec("#{command_prefix} bundle install && #{command_prefix} bundle exec rspec && bundle exec rake coveralls:push ")
-    else
-      exec(' bundle exec appraisal install && bundle exec rake appraisal spec && bundle exec rake coveralls:push')
-    end
+      exec(' bundle exec appraisal install && bundle exec rake appraisal spec')
   else
     exec('bundle exec appraisal install && bundle exec rake appraisal spec')
   end
