@@ -2,29 +2,12 @@ require 'bundler/setup'
 require 'bundler/gem_tasks'
 require 'appraisal'
 require 'rspec/core/rake_task'
-require 'coveralls/rake/task'
-require 'yard'
-Coveralls::RakeTask.new
 
 RSpec::Core::RakeTask.new(:spec) do |spec|
   default_options = ['--colour']
   default_options.concat(['--backtrace', '--fail-fast']) if ENV['DEBUG']
   spec.rspec_opts = default_options
   spec.verbose = true
-end
-
-YARD::Config.options[:load_plugins] = true
-YARD::Config.load_plugins
-
-# dirty hack for YardocTask
-::Rake.application.class.class_eval do
-  alias_method :last_comment, :last_description
-end
-
-YARD::Rake::YardocTask.new do |t|
-  t.files = ['lib/**/*.rb', 'spec/**/*_spec.rb'] # optional
-  t.options = ['--any', '--extra', '--opts', '--markup-provider=redcarpet', '--markup=markdown', '--debug'] # optional
-  t.stats_options = ['--list-undoc'] # optional
 end
 
 desc 'Default: run the unit tests.'
@@ -45,8 +28,4 @@ task :all do |_t|
   else
     exec('bundle exec appraisal install && bundle exec rake appraisal spec')
   end
-end
-
-task :docs do
-  exec('bundle exec inch --pedantic && bundle exec yard --list-undoc')
 end
