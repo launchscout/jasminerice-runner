@@ -1,8 +1,6 @@
 jasminerice-runner
 ==================
 
-**The original repo hasn't been updated in 4 years , this fork though tries to keep up-to-date with latest updates.**
-
 Uses capybara to run jasmine specs with jasminerice and rails asset pipeline
 
 Requirements
