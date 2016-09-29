@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(/^(spec)/)
   spec.require_paths = ['lib']
   spec.required_ruby_version = '>= 2.0'
-  spec.required_rubygems_version = '>= 2.5'
+  spec.required_rubygems_version = '>= 2.4'
   spec.metadata = {
     'source_code' => spec.homepage,
     'bug_tracker' => "#{spec.homepage}/issues"
