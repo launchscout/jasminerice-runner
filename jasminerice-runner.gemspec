@@ -26,11 +26,11 @@ Gem::Specification.new do |spec|
   }
   # specify any dependencies here; for example:
   # spec.add_development_dependency "rspec"
-  spec.add_runtime_dependency 'capybara',  '~> 2.0', '>= 2.0'
+  spec.add_runtime_dependency 'capybara',  '>= 1.0', '>= 1.0'
   spec.add_runtime_dependency 'jasminerice', '>= 0.0', '>= 0.0.10'
   spec.add_runtime_dependency 'jasmine', '>= 1.1', '>= 1.1'
   spec.add_runtime_dependency 'nokogiri', '~> 1.6', '>= 1.6'
-  spec.add_runtime_dependency 'colorize', '~> 0.8', '>= 0.8'
+  spec.add_runtime_dependency 'colorize', '~> 0.7', '>= 0.7'
   spec.add_runtime_dependency 'coffee-script', '>= 2.0', '>= 2.0'
 
   spec.add_development_dependency 'appraisal', '~> 2.1', '>= 2.1'
